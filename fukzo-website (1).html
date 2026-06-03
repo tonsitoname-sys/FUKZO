@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FUKZO — Studio Creativo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Myriad+Pro:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c1: #B2B9C0;
+    --c2: #7A7A7A;
+    --c3: #3E4744;
+    --c4: #11070D;
+    --c5: #1a1218;
+    --c6: #0d0a0c;
+    --accent: #B2B9C0;
+    --accent-warm: #c8cfd6;
+    --font-primary: 'Basement Grotesque', 'Arial Black', 'Impact', sans-serif;
+    --font-secondary: 'Myriad Variable Concept', 'Myriad Pro', 'Gill Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--c4);
+    color: var(--c1);
+    font-family: var(--font-secondary);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
+  }
+  .cursor-follower {
+    position: fixed;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(178,185,192,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+  .cursor.hovered { width: 14px; height: 14px; }
+  .cursor-follower.hovered { width: 48px; height: 48px; border-color: rgba(178,185,192,0.7); }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    mix-blend-mode: normal;
+  }
+  nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(17,7,13,0.9) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .nav-logo {
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    letter-spacing: 0.4em;
+    color: var(--c1);
+    text-decoration: none;
+    position: relative;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+    position: relative;
+  }
+  .nav-links a {
+    color: var(--c2);
+    text-decoration: none;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    font-weight: 400;
+  }
+  .nav-links a:hover { color: var(--c1); }
+
+  .nav-cta {
+    position: relative;
+    background: transparent;
+    border: 1px solid rgba(178,185,192,0.3);
+    color: var(--c1);
+    padding: 0.6rem 1.8rem;
+    font-family: var(--font-secondary);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.4s ease;
+    text-decoration: none;
+  }
+  .nav-cta:hover {
+    background: rgba(178,185,192,0.1);
+    border-color: rgba(178,185,192,0.7);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 4rem 6rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 60% 40%, rgba(62,71,68,0.25) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 70% 60%, rgba(178,185,192,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(178,185,192,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(178,185,192,0.03) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-logo-mark {
+    position: absolute;
+    top: 50%;
+    right: 6rem;
+    transform: translateY(-60%);
+    opacity: 0.06;
+    width: 500px;
+    animation: slowRotate 30s linear infinite;
+  }
+
+  @keyframes slowRotate {
+    from { transform: translateY(-60%) rotate(0deg); }
+    to { transform: translateY(-60%) rotate(360deg); }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--c2);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 40px;
+    height: 1px;
+    background: var(--c3);
+  }
+
+  .hero-title {
+    font-family: var(--font-primary);
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--c1);
+    margin-bottom: 2.5rem;
+    max-width: 12ch;
+  }
+  .hero-title span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(178,185,192,0.35);
+  }
+
+  .hero-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .hero-desc {
+    max-width: 380px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+    color: var(--c2);
+    font-weight: 300;
+  }
+
+  .hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--c3);
+  }
+  .hero-scroll-line {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(to bottom, var(--c3), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.5; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(0.6); transform-origin: top; }
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+  }
+  .stat-item { text-align: right; }
+  .stat-num {
+    font-family: var(--font-primary);
+    font-size: 1.8rem;
+    color: var(--c1);
+    letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c2);
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid rgba(178,185,192,0.08);
+    border-bottom: 1px solid rgba(178,185,192,0.08);
+    padding: 1.2rem 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 0 2rem;
+    font-family: var(--font-primary);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--c3);
+  }
+  .marquee-dot {
+    width: 4px;
+    height: 4px;
+    background: var(--c3);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTION COMMON */
+  section { padding: 8rem 4rem; }
+
+  .section-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--c3);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--c3);
+  }
+
+  .section-title {
+    font-family: var(--font-primary);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--c1);
+    margin-bottom: 1.5rem;
+  }
+
+  /* SERVICES */
+  .services-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: end;
+    margin-bottom: 5rem;
+  }
+  .services-desc {
+    font-size: 0.9rem;
+    line-height: 1.9;
+    color: var(--c2);
+    max-width: 400px;
+    align-self: end;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(178,185,192,0.08);
+  }
+
+  .service-card {
+    background: var(--c4);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s ease;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.6s ease;
+  }
+  .service-card:hover { background: rgba(62,71,68,0.3); }
+  .service-card:hover::before { width: 100%; }
+
+  .service-number {
+    font-family: var(--font-primary);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--c3);
+    margin-bottom: 2.5rem;
+  }
+
+  .service-icon {
+    width: 36px;
+    height: 36px;
+    margin-bottom: 1.5rem;
+    opacity: 0.6;
+  }
+
+  .service-name {
+    font-family: var(--font-primary);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    color: var(--c1);
+    margin-bottom: 1rem;
+  }
+
+  .service-text {
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--c2);
+  }
+
+  /* PHILOSOPHY */
+  .philosophy {
+    background: rgba(62,71,68,0.12);
+    border-top: 1px solid rgba(178,185,192,0.06);
+    border-bottom: 1px solid rgba(178,185,192,0.06);
+  }
+
+  .philosophy-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .philosophy-visual {
+    position: relative;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phi-ring {
+    position: absolute;
+    border: 1px solid;
+    border-radius: 50%;
+    animation: spinSlow 20s linear infinite;
+  }
+  .phi-ring:nth-child(1) { width: 300px; height: 300px; border-color: rgba(178,185,192,0.08); animation-direction: normal; }
+  .phi-ring:nth-child(2) { width: 220px; height: 220px; border-color: rgba(178,185,192,0.12); animation-direction: reverse; animation-duration: 15s; }
+  .phi-ring:nth-child(3) { width: 140px; height: 140px; border-color: rgba(178,185,192,0.2); animation-duration: 10s; }
+
+  .phi-center {
+    position: relative;
+    z-index: 1;
+    width: 60px;
+    height: 60px;
+  }
+
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .philosophy-values {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .value-item {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(178,185,192,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    cursor: none;
+    transition: all 0.3s ease;
+  }
+  .value-item:first-child { border-top: 1px solid rgba(178,185,192,0.06); }
+  .value-item:hover .value-title { color: var(--c1); }
+  .value-item:hover .value-arrow { opacity: 1; transform: translateX(0); }
+
+  .value-title {
+    font-family: var(--font-primary);
+    font-size: 1.3rem;
+    letter-spacing: 0.02em;
+    color: var(--c2);
+    transition: color 0.3s ease;
+  }
+  .value-desc {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--c3);
+  }
+  .value-arrow {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
+  }
+
+  /* WORK */
+  .work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 2px;
+  }
+
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--c5);
+    aspect-ratio: unset;
+  }
+  .work-item:nth-child(1) { grid-row: span 2; height: 600px; }
+  .work-item:nth-child(2), .work-item:nth-child(3) { height: 297px; }
+
+  .work-item-bg {
+    position: absolute;
+    inset: 0;
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .work-item:hover .work-item-bg { transform: scale(1.05); }
+
+  .work-item:nth-child(1) .work-item-bg {
+    background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(62,71,68,0.6) 0%, rgba(17,7,13,0.9) 100%);
+  }
+  .work-item:nth-child(2) .work-item-bg {
+    background: radial-gradient(ellipse 70% 70% at 30% 50%, rgba(122,122,122,0.3) 0%, rgba(17,7,13,0.95) 100%);
+  }
+  .work-item:nth-child(3) .work-item-bg {
+    background: radial-gradient(ellipse 60% 80% at 70% 30%, rgba(178,185,192,0.15) 0%, rgba(17,7,13,0.95) 100%);
+  }
+
+  .work-item-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(178,185,192,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(178,185,192,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .work-item-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2.5rem;
+    background: linear-gradient(to top, rgba(17,7,13,0.95) 0%, transparent 100%);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  .work-item:hover .work-item-content { transform: translateY(0); opacity: 1; }
+
+  .work-item-tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--c2);
+    margin-bottom: 0.5rem;
+  }
+  .work-item-title {
+    font-family: var(--font-primary);
+    font-size: 1.1rem;
+    letter-spacing: 0.03em;
+    color: var(--c1);
+  }
+
+  .work-item-label {
+    position: absolute;
+    top: 2rem;
+    left: 2.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c3);
+  }
+
+  .work-item-num {
+    position: absolute;
+    top: 2rem;
+    right: 2.5rem;
+    font-family: var(--font-primary);
+    font-size: 0.65rem;
+    color: var(--c3);
+    letter-spacing: 0.2em;
+  }
+
+  .work-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.15;
+  }
+
+  /* MANIFESTO */
+  .manifesto {
+    text-align: center;
+    padding: 10rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifesto::before {
+    content: 'FUKZO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-primary);
+    font-size: 25vw;
+    color: rgba(178,185,192,0.015);
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -0.03em;
+  }
+
+  .manifesto-quote {
+    font-family: var(--font-primary);
+    font-size: clamp(1.5rem, 3.5vw, 3rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--c1);
+    max-width: 18ch;
+    margin: 0 auto 3rem;
+    position: relative;
+  }
+  .manifesto-quote span {
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(178,185,192,0.3);
+  }
+
+  .manifesto-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--c3);
+    position: relative;
+  }
+
+  /* PROCESS */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    margin-top: 4rem;
+  }
+
+  .process-step {
+    padding: 3rem 2rem;
+    border: 1px solid rgba(178,185,192,0.06);
+    position: relative;
+    transition: border-color 0.3s ease;
+  }
+  .process-step:hover { border-color: rgba(178,185,192,0.2); }
+
+  .process-step-num {
+    font-family: var(--font-primary);
+    font-size: 3rem;
+    letter-spacing: -0.03em;
+    color: rgba(178,185,192,0.08);
+    margin-bottom: 2rem;
+    line-height: 1;
+  }
+
+  .process-step-name {
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    color: var(--c1);
+    margin-bottom: 1rem;
+  }
+
+  .process-step-text {
+    font-size: 0.75rem;
+    line-height: 1.8;
+    color: var(--c2);
+  }
+
+  .process-connector {
+    position: absolute;
+    top: 3.5rem;
+    right: -1px;
+    width: 2px;
+    height: 20px;
+    background: rgba(178,185,192,0.15);
+  }
+  .process-step:last-child .process-connector { display: none; }
+
+  /* CTA */
+  .cta-section {
+    padding: 8rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: rgba(62,71,68,0.08);
+    border-top: 1px solid rgba(178,185,192,0.06);
+  }
+
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(62,71,68,0.3) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .cta-title {
+    font-family: var(--font-primary);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--c1);
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+
+  .cta-sub {
+    font-size: 0.85rem;
+    color: var(--c2);
+    margin-bottom: 3rem;
+    line-height: 1.8;
+    position: relative;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--c1);
+    color: var(--c4);
+    padding: 1.2rem 3.5rem;
+    font-family: var(--font-primary);
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: none;
+    position: relative;
+    transition: all 0.4s ease;
+    overflow: hidden;
+  }
+  .cta-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--c4);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .cta-btn:hover { color: var(--c1); border: 1px solid var(--c1); background: transparent; }
+  .cta-btn:hover::before { transform: translateX(0); }
+  .cta-btn span { position: relative; z-index: 1; }
+
+  .cta-arrow {
+    position: relative;
+    z-index: 1;
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+  .cta-btn:hover .cta-arrow { transform: translateX(5px); }
+
+  /* FOOTER */
+  footer {
+    padding: 4rem;
+    border-top: 1px solid rgba(178,185,192,0.06);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+
+  .footer-brand {
+    font-family: var(--font-primary);
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    color: var(--c1);
+    margin-bottom: 1rem;
+  }
+
+  .footer-tagline {
+    font-size: 0.72rem;
+    line-height: 1.7;
+    color: var(--c3);
+    max-width: 280px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .footer-links a {
+    color: var(--c3);
+    text-decoration: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--c1); }
+
+  .footer-bottom {
+    text-align: right;
+    font-size: 0.65rem;
+    color: var(--c3);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    justify-content: flex-end;
+  }
+  .footer-social a {
+    color: var(--c3);
+    text-decoration: none;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+  .footer-social a:hover { color: var(--c1); }
+
+  /* REVEAL ANIMATIONS */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* LOADER */
+  .loader {
+    position: fixed;
+    inset: 0;
+    background: var(--c4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+  .loader.done { opacity: 0; visibility: hidden; }
+
+  .loader-logo {
+    font-family: var(--font-primary);
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+    color: var(--c1);
+    animation: loaderPulse 1.5s ease-in-out infinite;
+  }
+  .loader-line {
+    width: 200px;
+    height: 1px;
+    background: rgba(178,185,192,0.1);
+    position: relative;
+    overflow: hidden;
+  }
+  .loader-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--c1);
+    animation: loaderFill 1.8s ease forwards;
+  }
+  @keyframes loaderPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+  @keyframes loaderFill {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+
+  /* HOVER LINE */
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--c1);
+    transition: width 0.4s ease;
+  }
+  .link-underline:hover::after { width: 100%; }
+
+  /* Wolf SVG */
+  .wolf-svg { display: inline-block; }
+
+</style>
+</head>
+<body>
+
+<div class="loader" id="loader">
+  <div class="loader-logo">FUKZO</div>
+  <div class="loader-line"><div class="loader-progress"></div></div>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">FUKZO</a>
+  <ul class="nav-links">
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#work">Trabajo</a></li>
+    <li><a href="#process">Proceso</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Iniciar Proyecto</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <svg class="hero-logo-mark" viewBox="0 0 200 220" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100 10 L160 50 L160 100 L130 130 L100 160 L70 130 L40 100 L40 50 Z" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+    <path d="M100 30 L140 60 L140 95 L115 120 L100 135 L85 120 L60 95 L60 60 Z" stroke="#B2B9C0" stroke-width="0.5" fill="none"/>
+    <path d="M75 55 L100 30 L125 55 L100 80 Z" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+    <path d="M85 80 L100 65 L115 80 L100 100 Z" stroke="#B2B9C0" stroke-width="0.5" fill="rgba(178,185,192,0.1)"/>
+    <path d="M100 160 L100 200" stroke="#B2B9C0" stroke-width="1"/>
+    <path d="M100 200 L85 210 M100 200 L115 210" stroke="#B2B9C0" stroke-width="1"/>
+  </svg>
+
+  <div class="hero-eyebrow reveal">Estudio Creativo Independiente</div>
+
+  <h1 class="hero-title reveal">
+    Rompe<br>
+    <span>Lo</span><br>
+    Convencional
+  </h1>
+
+  <div class="hero-body">
+    <p class="hero-desc reveal">
+      Fusionamos identidad de marca, packaging y publicidad de valor con la fuerza indomable del diseño 3D, CGI y VFX. Narrativas visuales que trascienden.
+    </p>
+
+    <div class="hero-stats reveal">
+      <div class="stat-item">
+        <div class="stat-num">07+</div>
+        <div class="stat-label">Años de experiencia</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">120+</div>
+        <div class="stat-label">Proyectos ejecutados</div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      Scroll
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Branding<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Identidad Visual<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CGI & VFX<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Diseño 3D<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Packaging<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Publicidad de Valor<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Narrativas Visuales<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Motion Design<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Branding<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Identidad Visual<span class="marquee-dot"></span></span>
+    <span class="marquee-item">CGI & VFX<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Diseño 3D<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Packaging<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Publicidad de Valor<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Narrativas Visuales<span class="marquee-dot"></span></span>
+    <span class="marquee-item">Motion Design<span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-intro reveal">
+    <div>
+      <div class="section-label">Disciplinas</div>
+      <h2 class="section-title">Lo Que<br>Construimos</h2>
+    </div>
+    <p class="services-desc">
+      Cada proyecto nace de una visión única. No replicamos tendencias, construimos estándares. Con la precisión del lobo — cada movimiento tiene propósito, cada decisión es estratégica.
+    </p>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-number">01</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <rect x="4" y="4" width="12" height="12" stroke="#B2B9C0" stroke-width="1"/>
+        <rect x="20" y="4" width="12" height="12" stroke="#7A7A7A" stroke-width="1"/>
+        <rect x="4" y="20" width="12" height="12" stroke="#7A7A7A" stroke-width="1"/>
+        <rect x="20" y="20" width="12" height="12" stroke="#B2B9C0" stroke-width="1"/>
+      </svg>
+      <div class="service-name">Identidad de Marca</div>
+      <p class="service-text">Construimos marcas que perduran. Logo, sistema visual, tipografía y arquitectura de marca que comunican autoridad y distinción desde el primer contacto.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">02</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <circle cx="18" cy="18" r="12" stroke="#B2B9C0" stroke-width="1"/>
+        <circle cx="18" cy="18" r="6" stroke="#7A7A7A" stroke-width="1"/>
+        <line x1="18" y1="4" x2="18" y2="32" stroke="#3E4744" stroke-width="0.5"/>
+        <line x1="4" y1="18" x2="32" y2="18" stroke="#3E4744" stroke-width="0.5"/>
+      </svg>
+      <div class="service-name">Diseño 3D & CGI</div>
+      <p class="service-text">Mundos visuales construidos en tres dimensiones. Modelado, texturizado y renderizado fotorrealista que lleva la comunicación de marca a otro nivel perceptivo.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">03</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <path d="M4 28 L10 18 L16 22 L22 10 L32 18" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+        <path d="M4 28 L10 18 L16 22 L22 10 L32 18 L32 28 Z" fill="rgba(62,71,68,0.4)"/>
+      </svg>
+      <div class="service-name">VFX & Motion</div>
+      <p class="service-text">Efectos visuales y animación que transforman piezas estáticas en experiencias cinéticas. Cada frame diseñado para impactar, retener y persuadir.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">04</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <rect x="8" y="6" width="20" height="26" rx="2" stroke="#B2B9C0" stroke-width="1"/>
+        <line x1="12" y1="12" x2="24" y2="12" stroke="#7A7A7A" stroke-width="0.5"/>
+        <line x1="12" y1="16" x2="24" y2="16" stroke="#7A7A7A" stroke-width="0.5"/>
+        <line x1="12" y1="20" x2="20" y2="20" stroke="#7A7A7A" stroke-width="0.5"/>
+      </svg>
+      <div class="service-name">Packaging</div>
+      <p class="service-text">El envase es la primera experiencia física de tu marca. Diseñamos packaging que seduce en el punto de venta y construye valor percibido antes de abrir el producto.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">05</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <path d="M6 30 L18 8 L30 30" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+        <path d="M10 22 L26 22" stroke="#7A7A7A" stroke-width="0.5"/>
+      </svg>
+      <div class="service-name">Publicidad de Valor</div>
+      <p class="service-text">Campañas publicitarias que no interrumpen, sino que involucran. Narrativas construidas con propósito estratégico y ejecución visual de nivel mundial.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-number">06</div>
+      <svg class="service-icon" viewBox="0 0 36 36" fill="none">
+        <polygon points="18,4 22,14 32,14 24,20 27,30 18,24 9,30 12,20 4,14 14,14" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+      </svg>
+      <div class="service-name">Dirección Creativa</div>
+      <p class="service-text">Guía estratégica para proyectos de alta envergadura. Conceptualización, supervisión visual y cohesión narrativa que eleva cualquier pieza comunicacional.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy" id="philosophy">
+  <div class="philosophy-inner">
+    <div class="philosophy-visual">
+      <div class="phi-ring"></div>
+      <div class="phi-ring"></div>
+      <div class="phi-ring"></div>
+      <div class="phi-center">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+          <path d="M30 5 L45 18 L45 35 L36 44 L30 50 L24 44 L15 35 L15 18 Z" stroke="#B2B9C0" stroke-width="1.5" fill="rgba(62,71,68,0.3)"/>
+          <path d="M22 18 L30 10 L38 18 L30 26 Z" stroke="#B2B9C0" stroke-width="1" fill="rgba(178,185,192,0.15)"/>
+          <circle cx="30" cy="34" r="4" stroke="#B2B9C0" stroke-width="1" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <div>
+      <div class="section-label reveal">Filosofía</div>
+      <h2 class="section-title reveal">El Instinto<br>del Lobo</h2>
+
+      <div class="philosophy-values">
+        <div class="value-item reveal">
+          <div>
+            <div class="value-title">Liderazgo</div>
+            <div class="value-desc">Marcar el camino, no seguirlo</div>
+          </div>
+          <div class="value-arrow">→</div>
+        </div>
+        <div class="value-item reveal">
+          <div>
+            <div class="value-title">Solidez</div>
+            <div class="value-desc">Identidades que perduran</div>
+          </div>
+          <div class="value-arrow">→</div>
+        </div>
+        <div class="value-item reveal">
+          <div>
+            <div class="value-title">Lealtad</div>
+            <div class="value-desc">Compromiso total con cada proyecto</div>
+          </div>
+          <div class="value-arrow">→</div>
+        </div>
+        <div class="value-item reveal">
+          <div>
+            <div class="value-title">Sofisticación</div>
+            <div class="value-desc">Elegancia en cada decisión visual</div>
+          </div>
+          <div class="value-arrow">→</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-header">
+    <div>
+      <div class="section-label reveal">Proyectos Selectos</div>
+      <h2 class="section-title reveal">Trabajo</h2>
+    </div>
+    <a href="#contact" class="link-underline reveal" style="color: var(--c2); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;">Ver Todo el Portfolio →</a>
+  </div>
+
+  <div class="work-grid reveal">
+    <div class="work-item">
+      <div class="work-item-bg"></div>
+      <div class="work-item-grid"></div>
+      <div class="work-item-label">Proyecto Principal</div>
+      <div class="work-item-num">01</div>
+      <svg viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.12">
+        <path d="M200 60 L320 140 L320 300 L260 380 L200 440 L140 380 L80 300 L80 140 Z" stroke="#B2B9C0" stroke-width="1"/>
+        <path d="M200 100 L280 165 L280 295 L230 355 L200 390 L170 355 L120 295 L120 165 Z" stroke="#B2B9C0" stroke-width="0.5"/>
+        <path d="M155 155 L200 100 L245 155 L200 210 Z" stroke="#B2B9C0" stroke-width="1" fill="rgba(178,185,192,0.05)"/>
+      </svg>
+      <div class="work-item-content">
+        <div class="work-item-tag">Branding + 3D + Packaging</div>
+        <div class="work-item-title">Marca Premium — Identidad Completa</div>
+      </div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-bg"></div>
+      <div class="work-item-grid"></div>
+      <div class="work-item-label">Campaña Visual</div>
+      <div class="work-item-num">02</div>
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.12">
+        <circle cx="150" cy="150" r="100" stroke="#B2B9C0" stroke-width="1"/>
+        <circle cx="150" cy="150" r="60" stroke="#7A7A7A" stroke-width="0.5"/>
+        <circle cx="150" cy="150" r="20" stroke="#B2B9C0" stroke-width="1" fill="rgba(178,185,192,0.1)"/>
+        <line x1="50" y1="150" x2="250" y2="150" stroke="#3E4744" stroke-width="0.5"/>
+        <line x1="150" y1="50" x2="150" y2="250" stroke="#3E4744" stroke-width="0.5"/>
+      </svg>
+      <div class="work-item-content">
+        <div class="work-item-tag">CGI + VFX</div>
+        <div class="work-item-title">Campaña Digital — VFX Inmersivo</div>
+      </div>
+    </div>
+    <div class="work-item">
+      <div class="work-item-bg"></div>
+      <div class="work-item-grid"></div>
+      <div class="work-item-label">Identidad</div>
+      <div class="work-item-num">03</div>
+      <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" style="position:absolute;inset:0;width:100%;height:100%;opacity:0.12">
+        <rect x="50" y="50" width="200" height="200" stroke="#B2B9C0" stroke-width="1"/>
+        <rect x="80" y="80" width="140" height="140" stroke="#7A7A7A" stroke-width="0.5" transform="rotate(15 150 150)"/>
+        <rect x="110" y="110" width="80" height="80" stroke="#B2B9C0" stroke-width="1" fill="rgba(178,185,192,0.08)"/>
+      </svg>
+      <div class="work-item-content">
+        <div class="work-item-tag">Packaging + Branding</div>
+        <div class="work-item-title">Packaging Lujo — Experiencia Táctil</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MANIFESTO -->
+<section class="manifesto">
+  <p class="manifesto-quote reveal">
+    No creamos arte.<br>Construimos <span>Armas</span><br>Visuales.
+  </p>
+  <p class="manifesto-sub reveal">— Fukzo Studio Manifiesto</p>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-label reveal">Metodología</div>
+  <h2 class="section-title reveal">Nuestro Proceso</h2>
+
+  <div class="process-grid reveal">
+    <div class="process-step">
+      <div class="process-step-num">01</div>
+      <div class="process-step-name">Descubrimiento</div>
+      <p class="process-step-text">Inmersión profunda en tu marca, competencia y audiencia. Mapeamos el territorio antes de trazar la estrategia.</p>
+      <div class="process-connector"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">02</div>
+      <div class="process-step-name">Concepto</div>
+      <p class="process-step-text">Generamos la dirección creativa central. Una idea fuerza que unifica todos los elementos del sistema visual.</p>
+      <div class="process-connector"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">03</div>
+      <div class="process-step-name">Ejecución</div>
+      <p class="process-step-text">Producción con estándares de clase mundial. Diseño, modelado 3D, render y composición con precisión milimétrica.</p>
+      <div class="process-connector"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">04</div>
+      <div class="process-step-name">Entrega</div>
+      <p class="process-step-text">Implementación y acompañamiento. Entregamos sistemas vivos, listos para escalar y adaptarse a cada punto de contacto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <h2 class="cta-title reveal">¿Listo para<br>Trascender?</h2>
+  <p class="cta-sub reveal">Iniciemos una conversación sobre tu próximo proyecto.</p>
+  <a href="mailto:hola@fukzo.studio" class="cta-btn reveal">
+    <span>Contactar al Estudio</span>
+    <svg class="cta-arrow" viewBox="0 0 14 14" fill="none">
+      <path d="M1 7 H13 M8 2 L13 7 L8 12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+    </svg>
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">FUKZO</div>
+    <p class="footer-tagline">Estudio creativo independiente. Diseño 3D, CGI, VFX e identidad de marca para líderes que exigen distinción.</p>
+  </div>
+  <ul class="footer-links">
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#work">Portfolio</a></li>
+    <li><a href="#process">Proceso</a></li>
+    <li><a href="#contact">Contacto</a></li>
+  </ul>
+  <div>
+    <div class="footer-social">
+      <a href="#">Instagram</a>
+      <a href="#">Behance</a>
+      <a href="#">LinkedIn</a>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 FUKZO Studio</p>
+      <p style="margin-top:0.5rem">Lima, Perú</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Loader
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('done');
+    }, 2200);
+  });
+
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursorFollower');
+  let mx = 0, my = 0, fx = 0, fy = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function followCursor() {
+    fx += (mx - fx) * 0.12;
+    fy += (my - fy) * 0.12;
+    follower.style.left = fx + 'px';
+    follower.style.top = fy + 'px';
+    requestAnimationFrame(followCursor);
+  }
+  followCursor();
+
+  document.querySelectorAll('a, button, .service-card, .value-item, .work-item').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hovered');
+      follower.classList.add('hovered');
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hovered');
+      follower.classList.remove('hovered');
+    });
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 100);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
